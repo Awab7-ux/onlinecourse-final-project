@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Online courses</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="{% url 'onlinecourse:course_list' %}">Online Courses</a>
+  <div>
+    {% if user.is_authenticated %}
+      <span class="mr-3">{{ user.username }}</span>
+      <a href="{% url 'onlinecourse:logout' %}">Log out</a>
+    {% else %}
+      <a href="{% url 'onlinecourse:login' %}">Log in</a>
+      <a class="ml-3" href="{% url 'onlinecourse:register' %}">Register</a>
+    {% endif %}
+  </div>
+</nav>
+<main class="container py-4">
+  <h1>Courses</h1>
+  {% for course in courses %}
+    <article class="card mb-3">
+      <div class="card-body">
+        <h2 class="h5"><a href="{% url 'onlinecourse:course_details' course.id %}">{{ course.name }}</a></h2>
+        <p>{{ course.description }}</p>
+      </div>
+    </article>
+  {% empty %}
+    <p>No courses are available yet.</p>
+  {% endfor %}
+</main>
+</body>
+</html>
